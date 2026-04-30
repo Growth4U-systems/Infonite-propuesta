@@ -4,62 +4,67 @@
 <meta charset="UTF-8">
 <style>
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #2d2d2d;
-    line-height: 1.8;
-    font-size: 11pt;
-    max-width: 680px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+    color: #1f2937;
+    line-height: 1.65;
+    font-size: 14pt;
+    max-width: 760px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 56px 28px 80px;
   }
-  .logo { margin-bottom: 10px; }
-  .logo img { height: 36px; }
+  .logo { margin-bottom: 14px; }
+  .logo img { height: 38px; }
   .cover-title {
-    font-size: 28pt;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin: 30px 0 8px;
-    line-height: 1.2;
+    font-size: 36pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 36px 0 12px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
   .cover-subtitle {
-    font-size: 12pt;
-    color: #6b7280;
-    margin-bottom: 40px;
-    font-style: italic;
+    font-size: 16pt;
+    color: #475569;
+    margin-bottom: 56px;
+    font-style: normal;
+    line-height: 1.4;
   }
   .cover-meta {
-    font-size: 10pt;
-    color: #6b7280;
-    line-height: 2;
-    margin-bottom: 60px;
+    font-size: 12pt;
+    color: #64748b;
+    line-height: 1.9;
+    margin-bottom: 72px;
   }
-  .cover-meta strong { color: #2d2d2d; }
+  .cover-meta strong { color: #0f172a; }
   hr {
     border: none;
-    border-top: 2px solid #e5e7eb;
-    margin: 40px 0;
+    border-top: 1px solid #e5e7eb;
+    margin: 56px 0;
   }
   h1 {
-    font-size: 20pt;
-    color: #1a1a2e;
-    margin: 40px 0 12px;
-    font-weight: 700;
+    font-size: 26pt;
+    color: #0f172a;
+    margin: 56px 0 18px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
   }
   h2 {
-    font-size: 14pt;
-    color: #1a1a2e;
-    margin: 30px 0 8px;
-    font-weight: 600;
+    font-size: 19pt;
+    color: #0f172a;
+    margin: 40px 0 12px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
   h3 {
-    font-size: 12pt;
-    color: #1a1a2e;
-    margin: 20px 0 6px;
-    font-weight: 600;
+    font-size: 15pt;
+    color: #0f172a;
+    margin: 28px 0 10px;
+    font-weight: 700;
   }
-  p { margin: 8px 0 12px; }
-  ul { margin: 8px 0 16px; padding-left: 24px; }
-  li { margin-bottom: 6px; line-height: 1.6; }
+  p { margin: 14px 0 18px; }
+  ul { margin: 14px 0 22px; padding-left: 26px; }
+  li { margin-bottom: 10px; line-height: 1.55; }
   .phase-label {
     display: inline-block;
     background: #1a1a2e;
@@ -89,87 +94,89 @@
     border-left: 3px solid #10b981;
   }
   .callout {
-    background: #1a1a2e;
+    background: #0f172a;
     color: white;
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin: 20px 0;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 32px 0;
   }
-  .callout h3 { color: #e94560; margin: 0 0 8px; }
-  .callout p { color: rgba(255,255,255,0.85); margin: 0; }
+  .callout h3 { color: #fb7185; margin: 0 0 12px; font-size: 18pt; }
+  .callout p { color: rgba(255,255,255,0.9); margin: 0; font-size: 14pt; line-height: 1.6; }
   .price-box {
-    border: 2px solid #1a1a2e;
-    border-radius: 10px;
-    padding: 24px;
-    margin: 20px 0;
+    border: 2px solid #0f172a;
+    border-radius: 14px;
+    padding: 32px;
+    margin: 24px 0;
   }
-  .price-box h3 { margin-top: 0; }
+  .price-box h3 { margin-top: 0; font-size: 18pt; }
   .price-big {
-    font-size: 24pt;
-    font-weight: 700;
-    color: #1a1a2e;
+    font-size: 36pt;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin: 4px 0;
   }
   .price-note {
-    font-size: 10pt;
-    color: #6b7280;
+    font-size: 12pt;
+    color: #64748b;
   }
   .addon-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 14px 0 18px;
+    gap: 14px;
+    margin: 18px 0 24px;
   }
   .addon-item {
     border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: 16px 18px;
   }
   .addon-item h4 {
-    font-size: 10pt;
-    color: #1a1a2e;
-    margin: 0 0 3px;
-    font-weight: 600;
+    font-size: 13pt;
+    color: #0f172a;
+    margin: 0 0 6px;
+    font-weight: 700;
   }
   .addon-price {
     float: right;
     font-weight: 700;
-    color: #1a1a2e;
-    font-size: 10pt;
+    color: #0f172a;
+    font-size: 12pt;
   }
   .addon-desc {
-    font-size: 9pt;
-    color: #6b7280;
+    font-size: 12pt;
+    color: #475569;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
   }
-  .addon-section-title { font-size: 11pt; margin: 14px 0 4px; color: #1a1a2e; }
+  .addon-section-title { font-size: 14pt; margin: 22px 0 8px; color: #0f172a; font-weight: 700; }
   @media (max-width: 600px) { .addon-grid { grid-template-columns: 1fr; } }
   .collab-grid {
-    margin: 18px 0 8px;
+    margin: 24px 0 12px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 16px;
   }
   .collab-item {
     position: relative;
     background: #fff;
     border: 1px solid #e5e7eb;
-    border-left: 3px solid #1a1a2e;
-    border-radius: 8px;
-    padding: 14px 16px 14px 52px;
+    border-left: 4px solid #0f172a;
+    border-radius: 12px;
+    padding: 20px 24px 20px 70px;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .collab-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
   .collab-item .collab-icon {
     position: absolute;
-    left: 14px; top: 14px;
-    width: 26px; height: 26px;
+    left: 18px; top: 20px;
+    width: 36px; height: 36px;
     display: inline-flex; align-items: center; justify-content: center;
     border-radius: 50%;
-    background: #1a1a2e;
+    background: #0f172a;
     color: #fff;
   }
-  .collab-item .collab-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .collab-item .collab-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .collab-item:nth-child(1) { border-left-color: #6366f1; }
   .collab-item:nth-child(1) .collab-icon { background: #6366f1; }
   .collab-item:nth-child(2) { border-left-color: #06b6d4; }
@@ -180,62 +187,62 @@
   .collab-item:nth-child(4) .collab-icon { background: #f59e0b; }
   .collab-item strong {
     display: block;
-    margin-bottom: 4px;
-    color: #1a1a2e;
-    font-size: 10.5pt;
+    margin-bottom: 6px;
+    color: #0f172a;
+    font-size: 13pt;
     line-height: 1.3;
   }
   .collab-item span {
     display: block;
-    font-size: 9.5pt;
-    color: #6b7280;
-    line-height: 1.45;
+    font-size: 12pt;
+    color: #475569;
+    line-height: 1.5;
   }
   @media (max-width: 600px) { .collab-grid { grid-template-columns: 1fr; } }
   .footer-legal {
-    margin-top: 40px;
-    padding-top: 16px;
+    margin-top: 56px;
+    padding-top: 22px;
     border-top: 1px solid #e5e7eb;
-    font-size: 8.5pt;
-    color: #6b7280;
+    font-size: 10pt;
+    color: #94a3b8;
     text-align: center;
   }
   .section-label {
-    font-size: 9pt;
-    color: #e94560;
+    font-size: 11pt;
+    color: #fb7185;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-weight: 700;
+    margin-bottom: 6px;
   }
   /* ============ TABS DE FASES (CSS only) ============ */
-  .tabs-phases { position: relative; margin: 28px 0 36px; }
+  .tabs-phases { position: relative; margin: 36px 0 48px; }
   .tabs-phases > input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
   .tabs-phases .tab-labels {
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
-    border-bottom: 2px solid #1a1a2e;
+    border-bottom: 2px solid #0f172a;
   }
   .tabs-phases .tab-labels label {
-    cursor: pointer; padding: 14px 14px 12px; text-align: center;
-    background: #f9fafb; color: #6b7280;
+    cursor: pointer; padding: 18px 16px 16px; text-align: center;
+    background: #f8fafc; color: #64748b;
     border: 1px solid #e5e7eb; border-bottom: none; border-right: none;
-    font-weight: 700; font-size: 11pt; line-height: 1.3;
+    font-weight: 700; font-size: 13pt; line-height: 1.3;
     transition: background 0.15s ease, color 0.15s ease;
   }
   .tabs-phases .tab-labels label:last-of-type { border-right: 1px solid #e5e7eb; }
   .tabs-phases .tab-labels label .tab-time {
-    display: block; font-size: 9pt; font-weight: 400; margin-top: 2px; color: #9ca3af;
+    display: block; font-size: 11pt; font-weight: 500; margin-top: 4px; color: #94a3b8;
   }
-  .tabs-phases .tab-labels label:hover { background: #f3f4f6; color: #1a1a2e; }
+  .tabs-phases .tab-labels label:hover { background: #f1f5f9; color: #0f172a; }
   .tabs-phases .tab-panel {
-    display: none; padding: 28px 18px 6px;
+    display: none; padding: 36px 28px 12px;
     border: 1px solid #e5e7eb; border-top: none; background: #fff;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 8px 8px;
   }
   .tabs-phases #ptab1:checked ~ .tab-labels label[for="ptab1"],
   .tabs-phases #ptab2:checked ~ .tab-labels label[for="ptab2"],
   .tabs-phases #ptab3:checked ~ .tab-labels label[for="ptab3"] {
-    background: #1a1a2e; color: #fff; border-color: #1a1a2e;
+    background: #0f172a; color: #fff; border-color: #0f172a;
   }
   .tabs-phases #ptab1:checked ~ .tab-labels label[for="ptab1"] .tab-time,
   .tabs-phases #ptab2:checked ~ .tab-labels label[for="ptab2"] .tab-time,
@@ -245,10 +252,10 @@
   .tabs-phases #ptab1:checked ~ #panel1,
   .tabs-phases #ptab2:checked ~ #panel2,
   .tabs-phases #ptab3:checked ~ #panel3 { display: block; }
-  .tab-panel h3 { margin-top: 18px; }
-  .tab-panel ul { margin: 6px 0 14px; }
-  .tab-panel .panel-intro { color: #4b5563; margin: 0 0 14px; }
-  .tab-panel .panel-meta { color: #9ca3af; font-style: italic; font-size: 10pt; margin: -2px 0 14px; }
+  .tab-panel h3 { margin-top: 26px; font-size: 15pt; }
+  .tab-panel ul { margin: 10px 0 22px; }
+  .tab-panel .panel-intro { color: #334155; margin: 0 0 18px; font-size: 14pt; line-height: 1.6; }
+  .tab-panel .panel-meta { color: #64748b; font-style: italic; font-size: 12pt; margin: -2px 0 18px; }
   @media print {
     .tabs-phases .tab-labels { display: none; }
     .tabs-phases .tab-panel { display: block !important; border: none; padding: 0; page-break-inside: avoid; }
@@ -278,16 +285,16 @@
 
 <h1>Resumen Ejecutivo</h1>
 
-<p>Entendemos vuestra situaci&oacute;n: producto t&eacute;cnico potente con cobertura &uacute;nica de fuentes (Seguridad Social, AT, CIRBE, DGT, Carpeta Ciudadana, Catastro), <strong>30.000 EUR/mes de ingresos recurrentes</strong> y un pipeline que sigue creciendo por referencias. Pero el motor comercial depende de vuestra red personal y de hablar uno a uno. La meta del a&ntilde;o, <strong>pasar de 3 a 6 clientes</strong>, exige un sistema que traiga reuniones calificadas sin depender de que Luis o el equipo conozcan personalmente a cada decisor.</p>
+<p>Tenéis producto técnico potente y un pipeline creciendo por referencias. Pero el motor comercial depende de vuestra red personal: si Luis o el equipo no conocen al decisor, la venta no entra. La meta del año &mdash;<strong>pasar de 3 a 6 clientes</strong>&mdash; necesita un sistema que traiga reuniones calificadas <em>sin</em> depender de quién conoce a quién.</p>
 
-<p>Esta propuesta es un <strong>Programa de Acompa&ntilde;amiento de 6 meses</strong> en el que nos convertimos en vuestro equipo de growth fraccional. Las primeras 4&ndash;6 semanas las ejecutamos nosotros (Foundation: an&aacute;lisis GTM, posicionamiento, ECPs, mapa de partners, roadmap); a partir de ah&iacute; vuestro equipo ejecuta con nuestras sesiones semanales 1:1, herramientas IA-first y acceso a la red Growth4U para abrir puertas y contactos clave. <strong>Pago mensual</strong> para que no comprometais flujo de caja por adelantado. Y si en alg&uacute;n momento qu&eacute;reis que tomemos m&aacute;s ownership y ejecutemos directamente (modelo Agencia), tenemos cl&aacute;usula opcional para hacer la transici&oacute;n sin lock-in (ver <em>Inversi&oacute;n</em>).</p>
+<p>Os proponemos un <strong>Programa de Acompañamiento de 6 meses</strong>. Las primeras 4&ndash;6 semanas las ejecutamos nosotros (Foundation completa); el resto, vuestro equipo ejecuta con sesiones semanales 1:1, herramientas IA-first y acceso a la red Growth4U.</p>
 
-<p>En cada fase os entregamos avances concretos sobre los tres ejes que necesit&aacute;is consolidar:</p>
+<p>Construimos juntos tres pilares:</p>
 
 <ul>
-  <li><strong>Claridad Estrat&eacute;gica:</strong> Posicionamiento &uacute;nico de Infonite frente a Tink, Afterbanks, Permiso y Bilender. Mensaje espec&iacute;fico por nicho (banca, fintechs, ERPs, KYB) validado con datos del mercado.</li>
-  <li><strong>Motor de Confianza:</strong> Presencia digital construida (web + LinkedIn corporativo + SEO/GEO + casos de &eacute;xito documentados de Fintonic, IBANCAR e Ibrit) que valida la credibilidad antes de la primera llamada.</li>
-  <li><strong>Sistema de Adquisici&oacute;n B2B:</strong> Outbound LinkedIn signal-based + partnerships estrat&eacute;gicos + contenido + eventos. Pipeline continuo, no por referencia personal.</li>
+  <li><strong>Claridad estratégica</strong> &mdash; posicionamiento de Infonite y mensajes por nicho (banca, fintechs, ERPs, KYB).</li>
+  <li><strong>Motor de confianza</strong> &mdash; web, LinkedIn, SEO/GEO, casos Fintonic e IBANCAR documentados.</li>
+  <li><strong>Sistema de adquisición B2B</strong> &mdash; outbound LinkedIn + partnerships + contenido + eventos. Pipeline continuo, no personal.</li>
 </ul>
 
 <div class="callout">
