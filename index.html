@@ -527,7 +527,7 @@ Un abrazo y a crecer!<br>
 Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &middot; CIF: B22671879 &middot; VAT: ESB22671879
 </div>
 
-<!-- ============ EDITOR INLINE GROWTH4U ============ -->
+<!-- ============ EDITOR INLINE GROWTH4U (Hybrid: Worker + PAT fallback) ============ -->
 <style>
   #g4u-editor-toolbar {
     position: fixed; bottom: 20px; right: 20px;
@@ -568,12 +568,11 @@ Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &
     position: fixed; bottom: 20px; right: 20px;
     background: #1a1a2e; color: #fff;
     width: 44px; height: 44px; border-radius: 50%;
-    display: none; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     font-size: 18px; z-index: 99998;
     border: 0;
   }
-  body.g4u-show-fab #g4u-edit-fab { display: flex; }
   body.g4u-edit-mode #g4u-edit-fab { display: none; }
   @media print {
     #g4u-editor-toolbar, #g4u-edit-fab { display: none !important; }
@@ -591,6 +590,8 @@ Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &
 
 <script>
 (function() {
+  // Endpoint del Worker (cuando esté desplegado, no pedirá token)
+  const G4U_WORKER_URL = 'https://g4u-docs.growth4u.workers.dev/save';
   const EDITABLE_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li, .price-big, .cover-title, .cover-subtitle, .panel-intro, .panel-meta, .addon-desc, .addon-section-title, .tab-time, .collab-item strong, .collab-item span:not(.collab-icon), strong:not(.cover-meta strong), em';
 
   const enableEdit = () => {
@@ -610,12 +611,9 @@ Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &
       el.removeAttribute('data-editable');
     });
   };
-  const showFab = () => document.body.classList.add('g4u-show-fab');
 
-  // Activación: ?edit=1, Shift+E, o si hay token guardado mostramos FAB
   const params = new URLSearchParams(location.search);
   if (params.get('edit') === '1') enableEdit();
-  if (localStorage.getItem('g4u_gh_token')) showFab();
 
   document.addEventListener('keydown', e => {
     if (e.shiftKey && (e.key === 'E' || e.key === 'e') && !e.metaKey && !e.ctrlKey && !e.altKey) {
@@ -623,23 +621,86 @@ Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
       e.preventDefault();
       if (document.body.classList.contains('g4u-edit-mode')) disableEdit();
-      else { showFab(); enableEdit(); }
+      else enableEdit();
     }
   });
 
-  document.getElementById('g4u-edit-fab').onclick = () => { showFab(); enableEdit(); };
-  document.getElementById('g4u-exit').onclick = () => { disableEdit(); };
+  document.getElementById('g4u-edit-fab').onclick = () => enableEdit();
+  document.getElementById('g4u-exit').onclick = () => disableEdit();
+
+  // Probe ligero: ¿está vivo el Worker? Cacheamos el resultado por sesión.
+  let workerAlive = null;
+  const probeWorker = async () => {
+    if (workerAlive !== null) return workerAlive;
+    try {
+      const r = await fetch(G4U_WORKER_URL, { method: 'OPTIONS' });
+      workerAlive = r.ok || r.status === 204;
+    } catch { workerAlive = false; }
+    return workerAlive;
+  };
+
+  const saveViaWorker = async (owner, repo, html) => {
+    const res = await fetch(G4U_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        owner, repo,
+        path: 'index.html',
+        branch: 'main',
+        content: html,
+        message: 'Edición inline desde la propuesta'
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error('Worker ' + res.status + ': ' + err.slice(0, 200));
+    }
+    const data = await res.json();
+    return data.sha || '';
+  };
+
+  const saveViaPAT = async (owner, repo, html) => {
+    let token = localStorage.getItem('g4u_gh_token');
+    if (!token) {
+      token = prompt('Worker no disponible. Pega tu GitHub Personal Access Token (scope: repo o public_repo).
+Se guarda en este navegador, no se envía a ningún tercero.');
+      if (!token) throw new Error('cancelado');
+      token = token.trim();
+      localStorage.setItem('g4u_gh_token', token);
+    }
+    const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents/index.html`;
+    const getRes = await fetch(apiBase + '?ref=main', {
+      headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' }
+    });
+    if (!getRes.ok) {
+      if (getRes.status === 401) {
+        localStorage.removeItem('g4u_gh_token');
+        throw new Error('Token inválido (401). Reintenta.');
+      }
+      throw new Error('GET ' + getRes.status);
+    }
+    const fileInfo = await getRes.json();
+    const b64 = btoa(unescape(encodeURIComponent(html)));
+    const putRes = await fetch(apiBase, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Edición inline desde la propuesta',
+        content: b64,
+        sha: fileInfo.sha,
+        branch: 'main'
+      })
+    });
+    if (!putRes.ok) {
+      const err = await putRes.text();
+      throw new Error('PUT ' + putRes.status + ': ' + err.slice(0,160));
+    }
+    const data = await putRes.json();
+    return data.commit.sha;
+  };
 
   document.getElementById('g4u-save').onclick = async () => {
     const status = document.getElementById('g4u-status');
-    let token = localStorage.getItem('g4u_gh_token');
-    if (!token) {
-      token = prompt('Pega tu GitHub Personal Access Token (scope: repo o public_repo).\nSe guarda en este navegador, no se envía a ningún tercero.');
-      if (!token) return;
-      localStorage.setItem('g4u_gh_token', token.trim());
-      token = token.trim();
-      showFab();
-    }
 
     const match = location.hostname.match(/^(.+)\.github\.io$/);
     if (!match) { status.textContent = '⚠️ No es GitHub Pages'; return; }
@@ -650,43 +711,21 @@ Growth Systems Now, SL &middot; Calle de Luchana, 28, 2A &middot; 28010 Madrid &
 
     status.textContent = '⏳ Guardando en ' + owner + '/' + repo + '…';
 
-    // Tomar HTML limpio (sin atributos de edición)
     const wasEditMode = document.body.classList.contains('g4u-edit-mode');
     disableEdit();
-    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const html = '<!DOCTYPE html>
+' + document.documentElement.outerHTML;
     if (wasEditMode) enableEdit();
 
     try {
-      const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents/index.html`;
-      const getRes = await fetch(apiBase + '?ref=main', {
-        headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' }
-      });
-      if (!getRes.ok) {
-        if (getRes.status === 401) {
-          localStorage.removeItem('g4u_gh_token');
-          throw new Error('Token inválido (401). Re-pegalo y vuelve a intentarlo.');
-        }
-        throw new Error('GET ' + getRes.status);
+      let sha;
+      const alive = await probeWorker();
+      if (alive) {
+        sha = await saveViaWorker(owner, repo, html);
+      } else {
+        sha = await saveViaPAT(owner, repo, html);
       }
-      const fileInfo = await getRes.json();
-
-      const b64 = btoa(unescape(encodeURIComponent(html)));
-      const putRes = await fetch(apiBase, {
-        method: 'PUT',
-        headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: 'Edición inline desde la propuesta',
-          content: b64,
-          sha: fileInfo.sha,
-          branch: 'main'
-        })
-      });
-      if (!putRes.ok) {
-        const err = await putRes.text();
-        throw new Error('PUT ' + putRes.status + ': ' + err.slice(0,160));
-      }
-      const data = await putRes.json();
-      status.innerHTML = '✅ <code style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:3px;">' + data.commit.sha.slice(0,7) + '</code> · Pages rebuild en ~1 min';
+      status.innerHTML = '✅ <code style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:3px;">' + sha.slice(0,7) + '</code> · Pages rebuild en ~1 min';
     } catch (e) {
       status.textContent = '❌ ' + e.message;
       console.error('[G4U Editor]', e);
